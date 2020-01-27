@@ -1,0 +1,9 @@
+.wp-menu .wp-submenu .wp-submenu-wrap ul li.wp-has-add-url>a.wp-add-url {
+    /*display: inline-block;*/
+    padding-right: 18px !important;
+}
+
+td, th {
+    padding: 10px;
+    font-size: 14px;
+}

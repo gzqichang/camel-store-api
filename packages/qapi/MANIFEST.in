@@ -1,0 +1,3 @@
+# Include the static files
+recursive-include qapi *
+recursive-exclude * *.py[co]

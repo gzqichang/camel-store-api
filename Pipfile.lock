@@ -1,0 +1,186 @@
+{
+    "_meta": {
+        "hash": {
+            "sha256": "42279ea59a29d03eac343874a11dac96bc16b4958f1a44c4adcdf0651a2c6a91"
+        },
+        "host-environment-markers": {
+            "implementation_name": "cpython",
+            "implementation_version": "3.7.4",
+            "os_name": "posix",
+            "platform_machine": "x86_64",
+            "platform_python_implementation": "CPython",
+            "platform_release": "17.7.0",
+            "platform_system": "Darwin",
+            "platform_version": "Darwin Kernel Version 17.7.0: Wed Feb 27 00:43:23 PST 2019; root:xnu-4570.71.35~1/RELEASE_X86_64",
+            "python_full_version": "3.7.4",
+            "python_version": "3.7",
+            "sys_platform": "darwin"
+        },
+        "pipfile-spec": 6,
+        "requires": {
+            "python_version": "3.7"
+        },
+        "sources": [
+            {
+                "name": "aliyun",
+                "url": "https://mirrors.aliyun.com/pypi/simple/",
+                "verify_ssl": true
+            }
+        ]
+    },
+    "default": {
+        "certifi": {
+            "hashes": [],
+            "version": "==2019.11.28"
+        },
+        "chardet": {
+            "hashes": [],
+            "version": "==3.0.4"
+        },
+        "coreapi": {
+            "hashes": [],
+            "version": "==2.3.3"
+        },
+        "coreschema": {
+            "hashes": [],
+            "version": "==0.0.4"
+        },
+        "defusedxml": {
+            "hashes": [],
+            "version": "==0.6.0"
+        },
+        "django": {
+            "hashes": [],
+            "version": "==2.2.9"
+        },
+        "django-cors-headers": {
+            "hashes": [],
+            "version": "==3.2.1"
+        },
+        "django-filter": {
+            "hashes": [],
+            "version": "==2.2.0"
+        },
+        "django-middleware-global-request": {
+            "hashes": [],
+            "version": "==0.1.2"
+        },
+        "django-ranged-response": {
+            "hashes": [],
+            "version": "==0.2.0"
+        },
+        "django-simple-captcha": {
+            "hashes": [],
+            "version": "==0.5.12"
+        },
+        "djangorestframework": {
+            "hashes": [],
+            "version": "==3.11.0"
+        },
+        "djangorestframework-xml": {
+            "hashes": [],
+            "version": "==1.4.0"
+        },
+        "et-xmlfile": {
+            "hashes": [],
+            "version": "==1.0.1"
+        },
+        "future": {
+            "hashes": [],
+            "version": "==0.18.2"
+        },
+        "haversine": {
+            "hashes": [],
+            "version": "==2.2.0"
+        },
+        "idna": {
+            "hashes": [],
+            "version": "==2.8"
+        },
+        "itypes": {
+            "hashes": [],
+            "version": "==1.1.0"
+        },
+        "jdcal": {
+            "hashes": [],
+            "version": "==1.4.1"
+        },
+        "jinja2": {
+            "hashes": [],
+            "version": "==2.10.3"
+        },
+        "markupsafe": {
+            "hashes": [],
+            "version": "==1.1.1"
+        },
+        "openpyxl": {
+            "hashes": [],
+            "version": "==3.0.3"
+        },
+        "optionaldict": {
+            "hashes": [],
+            "version": "==0.1.1"
+        },
+        "pillow": {
+            "hashes": [],
+            "version": "==7.0.0"
+        },
+        "psycopg2-binary": {
+            "hashes": [],
+            "version": "==2.8.4"
+        },
+        "pycryptodome": {
+            "hashes": [],
+            "version": "==3.9.4"
+        },
+        "python-dateutil": {
+            "hashes": [],
+            "version": "==2.8.1"
+        },
+        "pytz": {
+            "hashes": [],
+            "version": "==2019.3"
+        },
+        "qiniu": {
+            "hashes": [],
+            "version": "==7.2.6"
+        },
+        "qrcode": {
+            "hashes": [],
+            "version": "==6.1"
+        },
+        "requests": {
+            "hashes": [],
+            "version": "==2.22.0"
+        },
+        "simplejson": {
+            "hashes": [],
+            "version": "==3.17.0"
+        },
+        "six": {
+            "hashes": [],
+            "version": "==1.14.0"
+        },
+        "sqlparse": {
+            "hashes": [],
+            "version": "==0.3.0"
+        },
+        "uritemplate": {
+            "hashes": [],
+            "version": "==3.0.1"
+        },
+        "urllib3": {
+            "hashes": [],
+            "version": "==1.25.8"
+        },
+        "wechatpy": {
+            "hashes": [],
+            "version": "==1.8.6"
+        },
+        "xmltodict": {
+            "hashes": [],
+            "version": "==0.12.0"
+        }
+    },
+    "develop": {}
+}

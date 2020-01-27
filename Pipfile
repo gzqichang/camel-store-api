@@ -1,0 +1,36 @@
+[[source]]
+
+name = "aliyun"
+url = "https://mirrors.aliyun.com/pypi/simple/"
+verify_ssl = true
+
+
+[dev-packages]
+
+
+
+[packages]
+
+django = ">2.0,<3.0"
+djangorestframework = "*"
+django-filter = "*"
+pycryptodome = "*"
+django-cors-headers = "*"
+wechatpy = "*"
+six = "*"
+qrcode = "*"
+coreapi = "*"
+djangorestframework-xml = "*"
+django-simple-captcha = "*"
+qiniu = "*"
+simplejson = "*"
+haversine = "*"
+future = "*"
+openpyxl = "*"
+django-middleware-global-request = "*"
+"psycopg2-binary" = "*"
+
+
+[requires]
+
+python_version = "3.7"
