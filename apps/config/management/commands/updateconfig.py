@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         Version.objects.update_or_create(
             name='version',
-            defaults={'content': '0.1'}, #settings.CAMEL_STORE_VERSION},
+            defaults={'content': settings.CAMEL_STORE_VERSION},
         )
 
         print('finish!!!!')

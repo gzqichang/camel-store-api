@@ -6,9 +6,9 @@ SECRET_KEY = ''                # 密钥
 
 DEBUG = False
 
+CAMEL_STORE_VERSION = '3.8.1'
 SHOP_NAME = '骆驼小店'               # 店铺名
 SHOP_SITE = 'luotuoxiaodian'        #
-
 DEFAULT_ADMIN_PASSWORD = ''  # 默认的管理员密码
 
 NUMBER_OF_SHOP = 10   #最大门店数量
