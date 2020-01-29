@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
         BoolConfig.objects.update_or_create(
             name='store_type',
-            defaults={'content': 'cloud'},
+            defaults={'content': 'camel'},
         )
 
         BoolConfig.objects.update_or_create(
@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
         Version.objects.update_or_create(
             name='version',
-            defaults={'content': settings.CAMEL_STORE_VERSION},
+            defaults={'content': '0.1'}, #settings.CAMEL_STORE_VERSION},
         )
 
         print('finish!!!!')
