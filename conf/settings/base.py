@@ -83,18 +83,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'conf.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
@@ -128,21 +116,6 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.0/howto/static-files/
-
-STATIC_URL = '/api/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-MEDIA_URL = '/api/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-#朋友圈分享海报
-POSTER_ROOT = os.path.join(MEDIA_ROOT, 'poster')
-
-if not os.path.exists(MEDIA_ROOT):
-    os.mkdir(MEDIA_ROOT)
-
-if not os.path.exists(POSTER_ROOT):
-    os.mkdir(POSTER_ROOT)
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 26214400
 FILE_UPLOAD_PERMISSIONS = 0o644
@@ -190,7 +163,6 @@ REST_FRAMEWORK = {
     }
 }
 
-AUTH_USER_MODEL = 'user.User'
 
 #后台管理配置
 IS_CAPTCHA_ENABLE = True
@@ -240,32 +212,8 @@ PERMISSION_ACTIONS = {
 USER_CUSTOM_PERMISSIONS = [
 ]
 
-SHOP_NAME = '骆驼小店'
-SHOP_SITE = 'luotuoxiaodian'
-NUMBER_OF_SHOP = 1    # 店铺数量
-
-
 # code: apps.tools.apps ready func
 # allow modify host
 USE_X_FORWARDED_HOST = True
 
 
-# Cache
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        # 'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-        'LOCATION': '/var/tmp/django_cache',
-        'TIMEOUT': 1 * 60 * 60,
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000
-        },
-    },
-    'qcache': {
-        'BACKEND': 'qcache.no_pickle_cache_backend.NoPickleLocMemCache',
-        'LOCATION': 'qcache-only',
-        'OPTIONS': {
-            'MAX_ENTRIES': 1000
-        },
-    },
-}
