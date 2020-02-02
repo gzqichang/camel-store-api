@@ -94,14 +94,14 @@ class StoreName(SystemConfig):
     @classmethod
     def get_name(cls):
         instance = cls.get('store_name')
-        return instance.content if instance else ''
+        return instance.content if instance else '骆驼小店'
 
     @classmethod
     def set_name(cls, name):
         instance = cls.get('store_name')
         instance.content = name
         instance.save()
-        return instance.content if instance else ''
+        return instance.content if instance else '骆驼小店'
 
 
 class Notice(VersionedMixin, models.Model):

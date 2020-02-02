@@ -18,6 +18,7 @@ CONF_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(CONF_DIR))
 
 BASE_DIR = os.environ.get("BASE_DIR") or BASE_DIR
+print('BASE_DIR:', BASE_DIR)
 
 # sys.path.insert(0, BASE_DIR)
 # sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
@@ -29,7 +30,7 @@ BASE_DIR = os.environ.get("BASE_DIR") or BASE_DIR
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+# DEBUG = False
 
 ALLOWED_HOSTS = []
 

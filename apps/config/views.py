@@ -53,7 +53,7 @@ class StoreLogoAPI(APIView):
         else:
             store_type = BoolConfig.objects.filter(name="store_type").first()
             store_type_value = getattr(store_type, "content", "camel")
-            file_name = "luotuoxiaodian.jpg" if store_type_value == "camel" else "cloud.png"
+            file_name = "camel-store-logo.png"
 
             file = request.build_absolute_uri(os.path.join(settings.STATIC_URL, 'img/{}'.format(file_name)))
             res.update({'square_logo': {'file': file}})
@@ -84,7 +84,7 @@ class StoreInfoAPI(APIView):
         else:
             store_type = BoolConfig.objects.filter(name="store_type").first()
             store_type_value = getattr(store_type, "content", "camel")
-            file_name = "luotuoxiaodian.jpg" if store_type_value == "camel" else "cloud.png"
+            file_name = "camel-store-logo.png"
 
             file = request.build_absolute_uri(os.path.join(settings.STATIC_URL, 'img/{}'.format(file_name)))
             res.update({'square_logo': {'file': file}})
