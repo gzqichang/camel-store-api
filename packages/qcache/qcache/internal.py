@@ -23,7 +23,7 @@ def version_based_cache(serializer_class):
     def _to_representation(serializer_instance, model_instance):
         request = serializer_instance.context['request']
         try:
-            admin_no_cache = request.headers.get('QCache-Cache-Control') == 'admin-no-cache'
+            admin_no_cache = request.META.get('HTTP_QCACHE_CACHE_CONTROL', None) == 'admin-no-cache'
         except AttributeError:
             admin_no_cache = False
         if admin_no_cache and request.user.is_staff:
