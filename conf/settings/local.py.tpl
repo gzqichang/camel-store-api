@@ -126,7 +126,7 @@ QFILE_QINIU_BUCKET_DOMAIN = ''
 QFILE_QINIU_BUCKET_NAME = ''
 QFILE_QINIU_SECURE_URL = False
 
-DEFAULT_FILE_STORAGE = 'apps.qfile.storage.qiniu.QiniuMediaStorage'
+# DEFAULT_FILE_STORAGE = 'apps.qfile.storage.qiniu.QiniuMediaStorage'
 # STATICFILES_STORAGE = 'apps.qfile.storage.qiniu.QiniuStaticStorage'
 
 
