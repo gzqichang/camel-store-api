@@ -63,11 +63,6 @@ def order_pay(order, trade_no=None):
             order.items.update(send_type=Items.SENDING)
             order.save()
             remind_new_order(order.shop)
-        elif order.model_type == order.SUB:
-            order.status = order.SERVING
-            order.save()
-            create_items(order)
-            remind_new_order(order.shop)
     validate_marketing_requirement(order.user)
 
 
@@ -129,9 +124,6 @@ def compute_amount(order, order_amount, postage_total, use_wallet=False):
 
 def order_validate_all_send(order):
     # 检查订单的子订单是否全部发货， 全发后状态改为待收货
-
-    if order.model_type == order.SUB:  # 只有普通商品订单, 积分换购订单检查子订单，和改状态为待收货
-        return
     if not order.items.filter(send_type=Items.SENDING):
         order.status = order.RECEIVING
         order.send_time = timezone.now()
@@ -185,21 +177,6 @@ def item_send(item):
         item.send_type = item.RECEIVING
         item.save()
         order_validate_all_send(item.order)
-    elif item.order.model_type == Orders.SUB:
-        item.send_time = timezone.now()
-        item.send_type = item.RECEIVING
-        item.flag_time = timezone.now() + timezone.timedelta(days=7)
-        item.save()
-        if item.cycle != 1:  # 本次发货时，如果上一期为收货，自动确认收货
-            last_cycle = item.order.items.get(cycle=item.cycle - 1)
-            item_confirm_receipt(last_cycle)
-        next_cycle = item.order.items.filter(cycle=item.cycle + 1, send_type=Items.SENDING).first()
-        if next_cycle:  # 如果有下一期，修改订单下次配送时间
-            send_start = next_cycle.send_start if next_cycle.send_start else datetime.time(hour=9, minute=0, second=0, microsecond=0)
-            item.order.next_send = timezone.datetime.combine(next_cycle.send_date, send_start)
-        else:
-            item.order.next_send = None
-        item.order.save()
     delivery_notice(item)
 
 
@@ -214,8 +191,6 @@ def item_confirm_receipt(item):
     item.save()
     if item.order.model_type == Orders.ORD:
         calc_asset(item)
-    elif item.order.model_type == Orders.SUB:
-        sub_order_done(item.order)
 
 
 def sub_order_done(order):
@@ -226,48 +201,6 @@ def sub_order_done(order):
         order.next_send = None
         order.receive_time = timezone.now()
         order.save()
-
-
-def create_items(order):
-    # 订阅类型订单创建每一期子订单
-
-    if order.model_type != order.SUB or order.items.count() != 0:
-        return False
-    goodsbackup = order.goods_backup.first()
-    sub_goods_info = goodsbackup.sub_goods_info
-    first_send_data = sub_goods_info.start_send_date      #第一期送货日期
-    send_data_list = []   #每一周期发货的日期
-
-    # 先将每个周期的发货时间计算出来
-    if sub_goods_info.delivery_setup == sub_goods_info.INTERVAL:
-        for i in range(0, sub_goods_info.cycle_num):
-            send_data = first_send_data + timezone.timedelta(days=sub_goods_info.interval * i)
-            send_data_list.append(send_data)
-    if sub_goods_info.delivery_setup == sub_goods_info.DATE:
-        delivery_data_ = sub_goods_info.delivery_data_
-        print(delivery_data_)
-        if sub_goods_info.date_setup == sub_goods_info.SPECIFIC:
-            send_data_list = list(filter(lambda x: x >= first_send_data, delivery_data_))
-        if sub_goods_info.date_setup == sub_goods_info.WEEKLY:
-            send_data_list.append(first_send_data)
-            index = 1
-            while True:
-                day = first_send_data + timezone.timedelta(days=index)
-                if day.weekday() + 1 in delivery_data_:
-                    send_data_list.append(day)
-                if len(send_data_list) == sub_goods_info.cycle_num:
-                    break
-                index += 1
-    # 创建子订单
-    for i in range(1, sub_goods_info.cycle_num + 1):
-        print(send_data_list)
-        send_data = send_data_list[i-1]
-        instance = Items.create(order, goodsbackup, i, send_data, sub_goods_info.send_start_time,
-                                sub_goods_info.send_end_time, send_type=Items.SENDING)
-        if i == 1:
-            send_start = instance.send_start if instance.send_start else datetime.time(hour=9, minute=0, second=0, microsecond=0)
-            order.next_send = timezone.datetime.combine(instance.send_date, send_start)
-            order.save()
 
 
 def arrive(item):

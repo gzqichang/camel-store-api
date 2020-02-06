@@ -2,7 +2,7 @@ from django.utils import timezone
 from apps.account.models import WxUserCreditLog
 from apps.goods.models import GoodType
 from apps.trade.models import Orders, Items
-from apps.trade.utils import create_items, validate_marketing_requirement
+from apps.trade.utils import validate_marketing_requirement
 from apps.refund.utils import create_rartial_refund, create_refund
 from apps.user.utils import remind_new_order
 
@@ -74,10 +74,6 @@ def order_settlement(order, ladder_index):
             order.status = order.HAS_PAID
             order.items.update(send_type=Items.SENDING)
             order.save()
-        elif order.model_type == order.SUB:
-            order.status = order.SERVING
-            order.save()
-            create_items(order)
         validate_marketing_requirement(order.user)
 
 

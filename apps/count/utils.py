@@ -64,15 +64,12 @@ def calc(date):
         orders = Orders.objects.filter(pay_time__date=date)
         orders_count = orders.count()
         ord_turnovers = sum_turnovers(orders.filter(model_type=Orders.ORD))
-        sub_turnovers = sum_turnovers(orders.filter(model_type=Orders.SUB))
-        qrpay_turnovers = sum_turnovers(orders.filter(model_type=Orders.QRPAY))
-        turnovers = ord_turnovers + sub_turnovers + qrpay_turnovers
+        turnovers = ord_turnovers
         Count.objects.update_or_create(date=date, defaults={'turnovers': turnovers,
                                                             'order_count': orders_count})
         TurnoversStatistics.objects.update_or_create(date=date,
                                                      defaults={'ord_turnovers': ord_turnovers,
-                                                               'sub_turnovers': sub_turnovers,
-                                                               'qrpay_turnovers': qrpay_turnovers,
+                                                               'qrpay_turnovers': 0,
                                                                'turnovers': turnovers})
 
 

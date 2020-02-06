@@ -184,11 +184,6 @@ class ItemsSerializers(serializers.HyperlinkedModelSerializer):
             return None
         if instance.order.model_type in [Orders.ORD, Orders.REPL]:
             return reverse('items-send', (instance.id,), request=self.context.get('request'))
-        if instance.order.model_type == Orders.SUB:
-            if instance.cycle == 1:
-                return reverse('items-send', (instance.id,), request=self.context.get('request'))
-            if instance.cycle != 1 and instance.order.items.get(cycle=instance.cycle - 1).send_time:
-                return reverse('items-send', (instance.id,), request=self.context.get('request'))
         return None
 
     def get_arrive(self, instance):
@@ -223,7 +218,6 @@ class ItemsSerializers(serializers.HyperlinkedModelSerializer):
 
 class OrdersSerializers(serializers.HyperlinkedModelSerializer):
     user_info = serializers.SerializerMethodField()
-    completion = serializers.SerializerMethodField()
     goods_backup = GoodsBackupSerializers(many=True, read_only=True)
     items = ItemsSerializers(many=True, read_only=True)
     wallet_pay = serializers.SerializerMethodField()
@@ -239,7 +233,7 @@ class OrdersSerializers(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Orders
         fields = generate_fields(Orders,
-                                 add=['user_info', 'completion', 'items', 'goods_backup', 'wallet_pay', 'shop_info',
+                                 add=['user_info', 'items', 'goods_backup', 'wallet_pay', 'shop_info',
                                       'cancel', 'confirm', 'adjust', 'groupbuy', 'entrust_shop_info'],
                                  remove=['user', 'asset_pay', 'recharge_pay', 'flag_time'])
         extra_kwargs = {
@@ -289,18 +283,9 @@ class OrdersSerializers(serializers.HyperlinkedModelSerializer):
         return None
 
     def get_confirm(self, instance):
-        if instance.model_type == instance.SUB:
-            return None
         if instance.status == Orders.RECEIVING:
             return reverse('orders-confirm', (instance.id,), request=self.context.get('request'))
         return None
-
-    def get_completion(self, instance):
-        # 订阅订单配送完成情况
-        if instance.model_type != instance.SUB or instance.status in [instance.PAYING, instance.CLOSE]:
-            return None
-        count = instance.items.filter(send_type=Items.OVER).count()
-        return count
 
     def get_adjust(self, instance):
         if instance.status == Orders.PAYING:
