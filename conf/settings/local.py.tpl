@@ -132,6 +132,7 @@ QFILE_QINIU_SECURE_URL = False
 
 #腾讯地图api KEY
 TENCENT_LBS_KEY = ''
+TENCENT_LBS_SK = ''
 
 
 WX_CONFIG = {
