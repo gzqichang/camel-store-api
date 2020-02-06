@@ -6,6 +6,7 @@ from rest_framework import views
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from django.conf import settings
+from apps.utils.lbs import lbs
 
 """
 - sitemap: Sitemap
@@ -148,9 +149,10 @@ class TencentLbs(views.APIView):
         path = request.path
         url = urljoin(url, path.replace('/api/', ''))
         data = request.query_params.dict()
-        data.update({'key': settings.TENCENT_LBS_KEY})
+        data['key'] = lbs.key
+        data['sig'] = lbs.gen_sig(data)
         res = requests.get(url, params=data)
-        return Response(res.json())
+        return Response(res.json(), status=res.status_code)
 
 
 class WebHookView(views.APIView):
