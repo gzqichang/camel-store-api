@@ -127,7 +127,7 @@ class Wechatpay(APIView):
             fee_type="CNY",
             attach=attach,
             body=getattr(settings, 'SHOP_NAME'),
-            notify_url=reverse('paycallback', request=request)
+            notify_url=reverse('paycallback', request=request),
             **extra_data
         )
         res.update({'info': order})
