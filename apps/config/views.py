@@ -301,37 +301,3 @@ class WxAppQrCodeView(APIView):
             img_content = base64.b64encode(img_content)
         return img_content
 
-
-class PayJSConfigView(APIView):
-
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        switch = PayJSConfig.get('switch').content
-        if switch == 'true':
-            switch = True
-        else:
-            switch = False
-        mchid = PayJSConfig.get('mchid').content
-        key = PayJSConfig.get('key').content
-        res = {
-            'switch': switch,
-            'mchid': mchid,
-            'key': key,
-            'notify_url': reverse('payjscallback', request=request) if switch else ''
-        }
-        return Response(res)
-
-    def post(self, request, *args, **kwargs):
-        user = request.user
-        if not getattr(user, 'is_staff', False):
-            return Response('你没有权限修改', status=status.HTTP_403_FORBIDDEN)
-        for i in request.data.keys():
-            if i not in ['switch', 'mchid', 'key']:
-                return Response('参数错误', status=status.HTTP_400_BAD_REQUEST)
-            if i == 'switch' and request.data.get(i) not in ['true', 'false']:
-                return Response('参数错误', status=status.HTTP_400_BAD_REQUEST)
-        for k, v in request.data.items():
-            PayJSConfig.set_content(k, v)
-        return Response('PAYJS配置已修改')
-

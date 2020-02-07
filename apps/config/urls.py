@@ -21,6 +21,5 @@ urlpatterns = [
     path('storeinfo/', views.StoreInfoAPI.as_view(), name='storeinfo'),
     path('wechatconfig/', views.WechatConfigView.as_view(), name='wechatconfig'),
     path('wxapp-qrcode/', views.WxAppQrCodeView.as_view()),
-    path('payjsconfig/', views.PayJSConfigView.as_view()),
     path('', include(router.urls)),
 ]
