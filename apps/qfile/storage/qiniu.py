@@ -4,7 +4,7 @@ https://github.com/glasslion/django-qiniu-storage
 """
 
 import os
-
+import pathlib
 import datetime
 import six
 
@@ -142,6 +142,15 @@ class QiniuStorage(base.BaseStorage):
             raise IOError(info)
 
         return [item for item in ret.get("items", [])]
+
+    def _normalize_name(self, name):
+        """
+        Normalizes the name so that paths like /path/to/ignored/../foo.txt
+        work. We check to make sure that the path pointed to is not outside
+        the directory specified by the LOCATION setting.
+        """
+        name = os.path.join(force_text(self.location), name)
+        return pathlib.PureWindowsPath(name).as_posix()
 
 
 class QiniuMediaStorage(QiniuStorage):
