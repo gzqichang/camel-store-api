@@ -1,3 +1,4 @@
+import hashlib
 import requests
 from haversine import haversine
 from requests.exceptions import SSLError, ConnectTimeout, ConnectionError
@@ -142,6 +143,15 @@ class TencentLBS2(object):
 
     def __init__(self):
         self.key = settings.TENCENT_LBS_KEY
+        self.sk = settings.TENCENT_LBS_SK
+
+    def gen_sig(self, params):
+        alist = []
+        for k in sorted(params.keys()):
+            alist.append('='.join((k, params[k])))
+        params_str = '/ws/geocoder/v1/?' + '&'.join(alist) + self.sk
+        result = hashlib.md5(params_str.encode()).hexdigest()
+        return result
 
     def get_location(self, lat, lng):
         url = 'https://apis.map.qq.com/ws/geocoder/v1/'
@@ -149,7 +159,8 @@ class TencentLBS2(object):
             'key': self.key,
             'location': '{},{}'.format(lat, lng)
         }
-
+        params['sig'] = self.gen_sig(params)
+        
         try:
             response = requests.get(url, params=params)
             return self.parse_location(response)
@@ -172,8 +183,9 @@ class TencentLBS2(object):
         url = 'https://apis.map.qq.com/ws/geocoder/v1/'
         params = {
             'key': self.key,
-            'address': address
+            'address': address,
         }
+        params['sig'] = self.gen_sig(params)
 
         try:
             response = requests.get(url, params=params)

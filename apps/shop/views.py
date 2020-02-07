@@ -90,8 +90,9 @@ class ShopViewSet(viewsets.ModelViewSet):
         lat, lng = location.split(',')
         from_location = {'lat': lat, 'lng': lng}
         shop_list = Shop.get_shop_list(from_location)
-        if not shop_list:
-            return Response('网络错误，请稍后重试', status=status.HTTP_400_BAD_REQUEST)
+        # print('shop_list:', type(shop_list), shop_list)
+        # if not shop_list:
+            # return Response('网络错误，请稍后重试', status=status.HTTP_400_BAD_REQUEST)
         return Response(shop_list)
 
 
@@ -108,7 +109,7 @@ class ShopViewSet(viewsets.ModelViewSet):
         address_id = request.query_params.get('address', None)
         location = request.query_params.get('location', None)
         if not Shop.objects.filter(status=Shop.OPEN):
-            return Response('非常抱歉目前没有正在营业的店', status=status.HTTP_400_BAD_REQUEST)
+            return Response('非常抱歉目前没有正在营业的店', status=status.HTTP_404_NOT_FOUND)
         if shop_id:
             shop = Shop.objects.get(id=shop_id)
             return Response(self.get_serializer(instance=shop).data)
@@ -121,7 +122,7 @@ class ShopViewSet(viewsets.ModelViewSet):
             if isinstance(shop, Shop):
                 return Response(self.get_serializer(instance=shop).data)
             else:
-                return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_400_BAD_REQUEST)
+                return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_404_NOT_FOUND)
         if request.user.is_anonymous:
             user_address = None
         else:
@@ -134,13 +135,13 @@ class ShopViewSet(viewsets.ModelViewSet):
                 if isinstance(shop, Shop):
                     return Response(self.get_serializer(instance=shop).data)
                 else:
-                    return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_400_BAD_REQUEST)
+                    return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_404_NOT_FOUND)
             address = UserAddress.get_address_by_locations(lat=lat, lng=lng, user=user)
             if not isinstance(address, UserAddress):
-                return Response('没有找到合适的店铺', status=status.HTTP_400_BAD_REQUEST)
+                return Response('没有找到合适的店铺', status=status.HTTP_404_NOT_FOUND)
             shop = Shop.get_near_shop_by_address(address)
             if not isinstance(shop, Shop):
-                return Response('没有找到合适的店铺', status=status.HTTP_400_BAD_REQUEST)
+                return Response('没有找到合适的店铺', status=status.HTTP_404_NOT_FOUND)
             return Response(self.get_serializer(instance=shop).data)
         else:
             if not user_address:
@@ -149,7 +150,7 @@ class ShopViewSet(viewsets.ModelViewSet):
             shop = Shop.get_near_shop_by_address(user_address)
             if isinstance(shop, Shop):
                 return Response(self.get_serializer(instance=shop).data)
-            return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_400_BAD_REQUEST)
+            return Response('获取最近店铺失败，请稍后重试', status=status.HTTP_404_NOT_FOUND)
 
 
 class DailyRemindAPI(APIView):

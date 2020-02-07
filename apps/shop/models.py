@@ -113,9 +113,9 @@ class Shop(VersionedMixin, models.Model):
         return False
 
     @classmethod
-    def get_all_shop_location(cls, queryset):
+    def get_all_shop_location(cls, shops):
         locations = []
-        for shop in queryset:
+        for shop in shops:
             locations.append(str(shop.lat)+','+str(shop.lng))
         return locations
 
@@ -124,23 +124,29 @@ class Shop(VersionedMixin, models.Model):
         '''根据坐标返回正在营业的店铺信息(如果有from_location,则加上距离）
         :param from_locations: {'lat': 123, ; 'lng': 123}
         '''
+        shops_has_location = []
         shop_info_list = []
-        shops = cls.objects.filter(lat__isnull=False, lng__isnull=False, status=cls.OPEN)
+        shops = cls.objects.filter(status=cls.OPEN)
+        for shop in shops:
+            if shop.lat and shop.lng:
+                shops_has_location.append(shop)
+                continue
+            shop_info_list.append(
+                {'name': shop.name, 'id': shop.id, 'distance': None, 'address': shop.address})
+
         if from_location:
-            to_location = cls.get_all_shop_location(shops)
+            to_location = cls.get_all_shop_location(shops_has_location)
             from_location = "{},{}".format(from_location.get('lat'), from_location.get('lng'))
             distance_list = lbs.one_to_many_distance(from_location=from_location, to_location=to_location)
-            try:      # 判断lbs 地图api服务是否成功，如果发生错误，返回的是字符串
-                distance_list[0].get('index')
-            except AttributeError:
-                return False
             for i in distance_list:
-                shop = shops[i.get('index')]
-                shop_info_list.append({'name': shop.name, 'id': shop.id, 'distance': i.get('distance'), 'address': shop.address})
+                shop = shops_has_location[i.get('index')]
+                shop_info_list.append(
+                    {'name': shop.name, 'id': shop.id, 'distance': i.get('distance'), 'address': shop.address})
         else:
-            for shop in shops:
+            for shop in shops_has_location:
                 shop_info_list.append(
                     {'name': shop.name, 'id': shop.id, 'distance': None, 'address': shop.address})
+                    
         return shop_info_list
 
     @classmethod
@@ -155,6 +161,8 @@ class Shop(VersionedMixin, models.Model):
         to_ = cls.get_all_shop_location(shops)
         from_ = "{},{}".format(from_location.get('lat'), from_location.get('lng'))
         distance_list = lbs.one_to_many_distance(from_location=from_, to_location=to_)
+        if not distance_list:
+            return False
         try:
             distance_list[0].get('index')
         except AttributeError:
