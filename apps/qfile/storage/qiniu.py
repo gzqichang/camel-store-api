@@ -83,31 +83,32 @@ class QiniuStorage(base.BaseStorage):
         self.secure_url = settings.QFILE_QINIU_SECURE_URL
 
     def _open(self, name, mode='rb'):
-        return QiniuFile(name, self, mode)
+        return QiniuFile(self._clean_name(name), self, mode)
 
     def _save_file(self, name, content):
+        tmp_name = self._clean_name(name)
         token = self.auth.upload_token(self.bucket_name)
-        ret, info = put_data(token, name, content)
-        if ret is None or ret['key'] != name:
+        ret, info = put_data(token, tmp_name, content)
+        if ret is None or ret['key'] != tmp_name:
             raise IOError(info)
 
     def _delete(self, name):
-        ret, info = self.bucket_manager.delete(self.bucket_name, name)
+        ret, info = self.bucket_manager.delete(self.bucket_name, self._clean_name(name))
         if ret is None or info.status_code == 612:
             raise IOError(info)
         else:
             return True
 
     def _exists(self, name):
-        ret, info = self.bucket_manager.stat(self.bucket_name, name)
+        ret, info = self.bucket_manager.stat(self.bucket_name, self._clean_name(name))
         return True if ret else False
 
     def _size(self, name):
-        ret, info = self.bucket_manager.stat(self.bucket_name, name)
+        ret, info = self.bucket_manager.stat(self.bucket_name, self._clean_name(name))
         return ret['fsize']
 
     def _get_modified_time(self, name):
-        ret, info = self.bucket_manager.stat(self.bucket_name, name)
+        ret, info = self.bucket_manager.stat(self.bucket_name, self._clean_name(name))
         time_stamp = float(ret['putTime']) / 10000000
         return datetime.datetime.fromtimestamp(time_stamp, tz=timezone.get_current_timezone())
 
