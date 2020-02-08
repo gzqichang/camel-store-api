@@ -87,6 +87,7 @@ sitemap_items = (
 
     ('cartbuy', 'cartbuy'),
     ('order', 'orders-list'),
+    ('pull_pay_result', 'pull-pay-result'),
     ('notice', 'notice-list'),
     ('config', 'config'),
     ('level', 'level-list'),

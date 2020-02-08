@@ -14,7 +14,7 @@ router.register('item', views.ItemsViewSet)
 urlpatterns = [
     path('wechatpay/', views.Wechatpay.as_view(), name='wechatpay'),
     path('468468418416846841684a6efaefa/', views.PayCallback.as_view(), name='paycallback'),
-    path('pull_pay_result/<str:pay_type>/<str:order_sn>/', views.PullPayResult.as_view(), name='pull-pay-result'),
+    path('pull_pay_result/', views.PullPayResult.as_view(), name='pull-pay-result'),
     path('cancel_order/', views.CancelOrder.as_view(), name='cance_lorder'),
     path('confirm_receipt/', views.ConfirmReceipt.as_view(), name='confirm_receipt'),
     path('cartbuy/', views.CartBuyView.as_view(), name='cartbuy'),

@@ -169,13 +169,19 @@ class PayCallback(APIView):
 class PullPayResult(APIView):
     permission_classes = [IsAdminUser]
 
-    def get(self, request, pay_type, order_sn, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        pay_type = request.query_params.get('pay_type', None)
+        order_sn = request.query_params.get('order_sn', None)
+
         if pay_type == 'buy_order':
             instance = get_object_or_404(Orders, order_sn=order_sn)#, status=Orders.PAYING)
         elif pay_type == 'recharge':
             instance = get_object_or_404(RechargeRecord, rchg_no=order_sn)#, status=Orders.PAYING)
         else:
             return Response('Invalide pay type.', status=status.HTTP_400_BAD_REQUEST)
+
+        if not order_sn:
+            return Response('order_sn can not be None.', status=status.HTTP_400_BAD_REQUEST)
 
         def clear_data(data):
             for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
