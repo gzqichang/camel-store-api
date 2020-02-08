@@ -1,5 +1,6 @@
 from decimal import Decimal
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from rest_framework.views import APIView, status
 from rest_framework.response import Response
@@ -160,9 +161,43 @@ class PayCallback(APIView):
             elif attach == 'recharge':
                 instance = RechargeRecord.objects.get(rchg_no=out_trade_no, )
                 instance.recharge(trade_no=transaction_id)
-        print('支付完成')
+        # print('支付完成')
         return HttpResponse(dict_to_xml({"return_code": "SUCCESS"}), content_type='application/xml')
 
+
+# 主动拉取支付结果
+class PullPayResult(APIView):
+    permission_classes = [IsAdminUser]
+
+    def get(self, request, pay_type, order_sn, *args, **kwargs):
+        if pay_type == 'buy_order':
+            instance = get_object_or_404(Orders, order_sn=order_sn)#, status=Orders.PAYING)
+        elif pay_type == 'recharge':
+            instance = get_object_or_404(RechargeRecord, rchg_no=order_sn)#, status=Orders.PAYING)
+        else:
+            return Response('Invalide pay type.', status=status.HTTP_400_BAD_REQUEST)
+
+        def clear_data(data):
+            for key in ('total_fee', 'settlement_total_fee', 'cash_fee', 'coupon_fee', 'coupon_count'):
+                if key in data:
+                    data[key] = int(data[key])
+
+        appid = settings.WX_PAY_WXA_APP_ID
+        transaction_id = instance.trade_no
+        out_trade_no = order_sn
+
+        result = WxPayQueryClient().query(appid, transaction_id, out_trade_no)
+        clear_data(result)
+        # print(result)
+        state = result.get("trade_state")
+        if state == "SUCCESS":
+            if pay_type == 'buy_order':
+                order_pay(instance, transaction_id)
+            elif pay_type == 'recharge':
+                instance.recharge(trade_no=transaction_id)
+            return Response('pulled', status=status.HTTP_200_OK)
+
+        return Response(f'pulled, trade_state{state}', status=status.HTTP_424_FAILED_DEPENDENCY)
 
 # 轮询取消超时未付款订单路由
 class CancelOrder(APIView):
