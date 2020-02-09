@@ -31,6 +31,7 @@ class FileSerializer(serializers.HyperlinkedModelSerializer):
         file = attrs.get('file')
         if file:
             suffix = os.path.splitext(file.name)[-1].replace('.', '')
+            suffix = suffix.lower()
             if suffix not in models.File.type_mapping.keys():
                 raise serializers.ValidationError(f"请上传文件后缀为{','.join(models.File.type_mapping.keys())}的素材")
         return attrs
@@ -68,6 +69,7 @@ class BulkUploadSerializer(serializers.Serializer):
     def validated_suffix(self, filename):
         """ 校验后缀名是否是图片 """
         suffix = os.path.splitext(filename)[-1].replace('.', '')
+        suffix = suffix.lower()
         if suffix not in models.File.type_mapping.keys():
             return False
         return True

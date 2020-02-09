@@ -50,6 +50,7 @@ class File(VersionedMixin, TimeLogMixin, models.Model):
         if not self.label:
             self.label = FileValidator.generate_file_name(self.file.name)
         suffix = os.path.splitext(self.file.name)[-1].replace('.', '')
+        suffix = suffix.lower()
         self.file_type = self.type_mapping.get(suffix, self.PICTURE)
         super().save(*args, **kwargs)
 
