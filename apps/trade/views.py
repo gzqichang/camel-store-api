@@ -174,9 +174,9 @@ class PullPayResult(APIView):
         order_sn = request.query_params.get('order_sn', None)
 
         if pay_type == 'buy_order':
-            instance = get_object_or_404(Orders, order_sn=order_sn)#, status=Orders.PAYING)
+            instance = get_object_or_404(Orders, order_sn=order_sn, status=Orders.PAYING)
         elif pay_type == 'recharge':
-            instance = get_object_or_404(RechargeRecord, rchg_no=order_sn)#, status=Orders.PAYING)
+            instance = get_object_or_404(RechargeRecord, rchg_no=order_sn, status=RechargeRecord.UNPAID)
         else:
             return Response('Invalide pay type.', status=status.HTTP_400_BAD_REQUEST)
 
@@ -194,13 +194,12 @@ class PullPayResult(APIView):
 
         result = WxPayQueryClient().query(appid, transaction_id, out_trade_no)
         clear_data(result)
-        # print(result)
         state = result.get("trade_state")
         if state == "SUCCESS":
             if pay_type == 'buy_order':
                 order_pay(instance, transaction_id)
             elif pay_type == 'recharge':
-                instance.recharge(trade_no=transaction_id)
+                instance.recharge(trade_no=result['transaction_id'])
             return Response('pulled', status=status.HTTP_200_OK)
 
         return Response(f'pulled, trade_state{state}', status=status.HTTP_424_FAILED_DEPENDENCY)
