@@ -311,7 +311,7 @@ class Recharge(APIView):
             fee_type="CNY",
             attach="recharge",
             body='优惠充值',
-            notify_url=reverse('paycallback', request=request)
+            notify_url=reverse('paycallback', request=request),
             **extra_data
         )
         return Response(order)
