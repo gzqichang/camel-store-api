@@ -358,7 +358,7 @@ class RechargeRecordSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = RechargeRecord
-        fields = ('user_info', 'amount', 'real_pay', 'trade_no', 'create_time')
+        fields = ('user_info', 'amount', 'real_pay', 'trade_no', 'create_time', 'status')
 
     def get_user_info(self, instance):
         if instance.wxuser:

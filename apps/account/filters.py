@@ -89,7 +89,8 @@ class RechargeRecordFilter(filters.FilterSet):
     wxuser = filters.CharFilter(field_name='wxuser__nickname', lookup_expr='contains')
     date = filters.DateFromToRangeFilter(field_name='create_time')
     trade_no = filters.CharFilter(field_name='trade_no', lookup_expr='contains')
+    status = filters.CharFilter(field_name='status')
 
     class Meta:
         model = RechargeRecord
-        fields = ['rchg_no', 'wxuser', 'date', 'trade_no']
+        fields = ['rchg_no', 'wxuser', 'date', 'trade_no', 'status']

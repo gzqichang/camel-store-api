@@ -320,5 +320,5 @@ class Recharge(APIView):
 class RechargeRecordViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     serializer_class = RechargeRecordSerializer
     permission_classes = (IsAdminUser,)
-    queryset = RechargeRecord.objects.filter(status=RechargeRecord.PAID)
+    queryset = RechargeRecord.objects.all()
     filterset_class = RechargeRecordFilter
