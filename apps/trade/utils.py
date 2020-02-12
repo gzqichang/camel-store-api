@@ -112,7 +112,7 @@ def compute_amount(order, order_amount, postage_total, use_wallet=False):
             order.asset_pay = asset
             order.recharge_pay = recharge
             order.real_amount = total - asset - recharge
-        remark = '线下支付' if order.model_type == order.QRPAY else '商品购买'
+        remark = '商品购买'
         number = order.order_sn
         WxUserAccountLog.record(order.user, WxUserAccountLog.USE, asset=order.asset_pay,
                                 balance=order.recharge_pay, remark=remark, note=f'订单:{order.order_sn}', number=number)
