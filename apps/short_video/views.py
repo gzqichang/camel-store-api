@@ -31,8 +31,9 @@ class ShortVideoViewSet(viewsets.ModelViewSet):
         return ShortVideoSerializer
 
     def create(self, request, *args, **kwargs):
-        if getattr(self.request.user, 'is_wechat',
-                   False) and request.user.upload_perm and not BlockWxUser.objects.filter(user=request.user):
+        if getattr(self.request.user, 'is_wechat', False) \
+            and (request.user.upload_perm or BoolConfig.get_bool('video_switch')) \
+                and not BlockWxUser.objects.filter(user=request.user):
             return super().create(request, *args, **kwargs)
         return Response('没有权限上传短视频', status=status.HTTP_403_FORBIDDEN)
 
