@@ -247,27 +247,3 @@ class WeChatConfig(VersionedMixin, models.Model):
             settings.SETTINGS_CONFIG.write(file)
 
 
-class PayJSConfig(VersionedMixin, models.Model):
-    name = models.CharField('配置项', max_length=64, unique=True)
-    content = models.CharField('配置内容', max_length=100, default='')
-
-    class Meta:
-        verbose_name = verbose_name_plural = 'PAYJS配置'
-
-    @classmethod
-    def get(cls, name):
-        try:
-            instance = cls.objects.get(name=name)
-            return instance
-        except cls.DoesNotExist:
-            if name == 'switch':
-                instance, _ = cls.objects.update_or_create(name=name, defaults={'content': 'false'})
-            else:
-                instance, _ = cls.objects.update_or_create(name=name)
-        return instance
-
-    @classmethod
-    def set_content(cls, name, content):
-        instance = cls.get(name)
-        instance.content = content
-        instance.save()

@@ -14,7 +14,7 @@ from quser.permissions import CURDPermissionsOrReadOnly
 from wxapp.permissions import ReadOnly
 from apps.qfile.serializers import FileSerializer
 from .models import FaqContent, Marketing, Notice, Level, RechargeType, BoolConfig, Version, StoreLogo, \
-     StoreType, DatetimeConfig, PayJSConfig
+     StoreType, DatetimeConfig
 from .models import StoreName as StoreNameModel
 from .serializers import FaqContentSerializers, MarketingSerializers, NoticeSerializers, LevelSerializers, \
     RechargeTypeSerializers, StoreLogoSerializers, StorePosterSerializers, WeChatConfigSerializers

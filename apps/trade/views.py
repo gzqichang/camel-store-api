@@ -15,7 +15,6 @@ from wx_pay.query import WxPayQueryClient
 from wx_pay.utils import dict_to_xml
 from wxapp.permissions import OnlyWxUser
 from apps.account.models import RechargeRecord
-from apps.config.models import PayJSConfig
 from apps.utils.logistics import logistics
 from apps.utils.company import company
 from apps.utils.parser import TextTypeXMLParser
