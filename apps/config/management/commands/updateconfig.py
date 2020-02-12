@@ -17,6 +17,11 @@ class Command(BaseCommand):
             defaults={'content': 'false'},
         )
 
+        BoolConfig.objects.update_or_create(
+            name='video_switch',
+            defaults={'content': 'false'},
+        )
+
         Version.objects.update_or_create(
             name='version',
             defaults={'content': settings.CAMEL_STORE_VERSION},
