@@ -1,0 +1,56 @@
+aliyun-python-sdk-core==2.13.13
+aliyun-python-sdk-core-v3==2.13.11
+aliyun-python-sdk-dysmsapi==1.0.0
+appdirs==1.4.3
+asgiref==3.2.3
+certifi==2019.11.28
+chardet==3.0.4
+coreapi==2.3.3
+coreschema==0.0.4
+defusedxml==0.6.0
+distlib==0.3.0
+Django==2.2.9
+django-cors-headers==3.2.1
+django-filter==2.2.0
+django-middleware-global-request==0.1.2
+django-ranged-response==0.2.0
+django-simple-captcha==0.5.12
+djangorestframework==3.11.0
+djangorestframework-xml==1.4.0
+et-xmlfile==1.0.1
+filelock==3.0.12
+future==0.18.2
+haversine==2.2.0
+idna==2.8
+importlib-metadata==1.5.0
+itypes==1.1.0
+jdcal==1.4.1
+Jinja2==2.10.3
+jmespath==0.9.4
+Markdown==3.1.1
+MarkupSafe==1.1.1
+openpyxl==3.0.3
+optionaldict==0.1.1
+Pillow==7.0.0
+pipenv==2018.11.26
+psycopg2-binary==2.8.4
+pycryptodome==3.9.4
+python-dateutil==2.8.1
+pytz==2019.3
+-e git+https://github.com/gzqichang/camel-store-api.git@dafaa669bac3e2575d9ba7f43ec1e62fe1ca21fc#egg=qapi&subdirectory=../../api/packages/qapi
+-e git+https://github.com/gzqichang/camel-store-api.git@dafaa669bac3e2575d9ba7f43ec1e62fe1ca21fc#egg=qcache&subdirectory=../../api/packages/qcache
+qiniu==7.2.6
+qrcode==6.1
+-e git+https://github.com/gzqichang/camel-store-api.git@dafaa669bac3e2575d9ba7f43ec1e62fe1ca21fc#egg=qsmstoken&subdirectory=../../api/packages/qsmstoken
+-e git+https://github.com/gzqichang/camel-store-api.git@dafaa669bac3e2575d9ba7f43ec1e62fe1ca21fc#egg=quser&subdirectory=../../api/packages/quser
+requests==2.22.0
+simplejson==3.17.0
+six==1.14.0
+sqlparse==0.3.0
+uritemplate==3.0.1
+urllib3==1.25.8
+virtualenv==20.0.3
+virtualenv-clone==0.5.3
+wechatpy==1.8.6
+xmltodict==0.12.0
+zipp==2.2.0
