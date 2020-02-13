@@ -73,6 +73,7 @@ sitemap_items = (
 
     ('category', 'goodscategory-list'),
     ('goods', 'goods-list'),
+    ('search_goods', 'search-goods'),
     ('validate_cart', 'goods-validate-cart'),
     ('banner', 'banner-list'),
 

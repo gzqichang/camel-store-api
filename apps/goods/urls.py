@@ -18,6 +18,7 @@ router.register('repltype', views.ReplGoodsTypeViewSet)
 
 
 urlpatterns = [
+    path('search_goods/', views.SearchGoods.as_view(), name='search-goods'),
     path('search/', views.Search.as_view(), name='search'),
     path('', include(router.urls)),
 ]

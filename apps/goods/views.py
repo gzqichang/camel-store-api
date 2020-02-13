@@ -1,5 +1,6 @@
 import os
 from django.utils import timezone
+from django.db.models import Q
 from PIL import Image, ImageDraw, ImageFont
 from django.conf import settings
 from django.http import HttpResponse
@@ -16,7 +17,7 @@ from .models import GoodsCategory, Goods, Banner, GoodType, HotWord, Images, Ord
 from .serializers import  GoodsCategorySerializer, GoodsSerializer, \
     ImagesSerializer, BannerSerializer, HotWordSerializer, CartSerializer, \
     OrdGoodsSerializer, GoodsTypeSerializer, AttachSerializer, SearchSerializer, ReplGoodsSerializer, \
-    ReplGoodsTypeSerializer, ValidateReplgoods, GoodsListSerializer, GoodsListNewSerializer
+    ReplGoodsTypeSerializer, ValidateReplgoods, GoodsListSerializer, GoodsListNewSerializer, SearchGoodsSerializer
 
 from .permissions import CreateTemplatePermission, UpdatePermission
 from .filters import GoodsCategoryFilter, GoodsFilter, BannerFilter
@@ -219,3 +220,15 @@ class Search(APIView):
         serializer.is_valid(raise_exception=True)
         res = serializer.save()
         return Response(res)
+
+
+class SearchGoods(APIView):
+    permission_classes = [CURDPermissionsOrReadOnly, ]
+    serializer_class = SearchGoodsSerializer
+
+    def get(self, request, *args, **kwargs):
+        keyword = request.query_params.get('k', None)
+        goods = Goods.objects.exclude(Q(is_template=True)).filter(name__icontains=keyword)
+        print(goods)
+        serializer = self.serializer_class(goods, many=True, context=dict(request=request))
+        return Response(serializer.data)

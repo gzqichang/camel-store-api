@@ -556,3 +556,8 @@ class GoodsListNewSerializer(serializers.HyperlinkedModelSerializer):
         res = super().to_representation(instance)
         res['status'] = Goods.status_dict.get(res['status'])
         return res
+
+class SearchGoodsSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Goods
+        fields = ('id', 'name', 'url')
