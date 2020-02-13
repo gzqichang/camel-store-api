@@ -228,7 +228,8 @@ class SearchGoods(APIView):
 
     def get(self, request, *args, **kwargs):
         keyword = request.query_params.get('k', None)
-        goods = Goods.objects.exclude(Q(is_template=True)).filter(name__icontains=keyword)
-        print(goods)
+        goods = Goods.objects.exclude(Q(is_template=True))
+        if keyword:
+            goods = goods.filter(name__icontains=keyword)
         serializer = self.serializer_class(goods, many=True, context=dict(request=request))
         return Response(serializer.data)
