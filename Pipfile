@@ -11,7 +11,7 @@ verify_ssl = true
 
 [packages]
 
-django = ">2.0,<3.0"
+django = ">=2.2.10,<3.0"
 djangorestframework = "*"
 django-filter = "*"
 pycryptodome = "*"
