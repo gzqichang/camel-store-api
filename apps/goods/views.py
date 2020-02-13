@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from rest_framework import viewsets, mixins
 from rest_framework.views import APIView, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from quser.permissions import CURDPermissionsOrReadOnly
 from wxapp.permissions import OnlyWxUser
@@ -223,7 +223,7 @@ class Search(APIView):
 
 
 class SearchGoods(APIView):
-    permission_classes = [CURDPermissionsOrReadOnly, ]
+    permission_classes = [IsAdminUser, ]
     serializer_class = SearchGoodsSerializer
 
     def get(self, request, *args, **kwargs):
