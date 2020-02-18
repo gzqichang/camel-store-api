@@ -31,7 +31,7 @@ class Shop(VersionedMixin, models.Model):
     detail = models.CharField(verbose_name='详细信息', max_length=128)
     lat = models.FloatField(verbose_name='纬度', null=True, blank=True)
     lng = models.FloatField(verbose_name='经度', null=True, blank=True)
-    delivery_divide = models.CharField(verbose_name='配送范围划分方式', max_length=20, default=GEOMETRY,
+    delivery_divide = models.CharField(verbose_name='配送范围划分方式', max_length=20, default=UNLIMIT,
                             choices=((UNLIMIT, '不限制'), (RADIUS, '半径划分'), (GEOMETRY, '地图标注')))
     delivery_radius = models.PositiveIntegerField(verbose_name='配送半径', null=True, blank=True)
     delivery_range = JSONField(verbose_name='配送范围列表', null=True, blank=True)
