@@ -48,7 +48,7 @@ simplejson==3.17.0
 six==1.14.0
 sqlparse==0.3.0
 uritemplate==3.0.1
-urllib3==1.25.8
+urllib3==1.26.5
 virtualenv==20.0.3
 virtualenv-clone==0.5.3
 wechatpy==1.8.6
